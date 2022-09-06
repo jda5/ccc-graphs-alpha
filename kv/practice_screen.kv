@@ -1,0 +1,118 @@
+#: import H kivy.utils.get_color_from_hex
+#: import SlideTransition kivy.uix.screenmanager.SlideTransition
+
+<PracticeWindow>:
+    id: window
+    orientation: 'vertical'
+
+    BoxLayout:
+        size_hint_y: 0.2
+        orienation: 'horizontal'
+
+        canvas.before:
+            Color:
+                rgba: H('#D1E5DE')
+            Rectangle:
+                size: self.size
+                pos: self.pos
+            Color:
+                rgba: 0, 0, 0, 1
+            Line:
+                points: [self.x, self.y, self.x + self.width, self.y]
+
+        Button:
+            size_hint: (0.1, 1)
+            id: back
+            color: H('#507C68') if self.state == 'normal' else H('#20322A')
+            font_size: self.width/2
+            font_name: 'icons'
+            text: 'j'
+            halign: 'center'
+            valign: 'middle'
+            backgound_normal: ''
+            background_color: 0, 0, 0, 0
+            backgound_down: ''
+            on_release: app.change_screen('home_screen', SlideTransition(direction='right'))
+
+        Label:
+            size_hint: (0.7, 1)
+            text: "Before you get started lets practice typing some simple mathematical expressions."
+            color: 0, 0, 0, 1
+            text_size: self.size
+            font_size: self.width*0.036
+            halign: 'center'
+            valign: 'middle'
+            markup: True
+            padding_x: 10
+            font_name: 'montserrat'
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint_x: 0.2
+            spacing: 20
+            padding: 20
+
+            RippleButton:
+                id: ready
+                text: 'Show/Hide'
+                font_size: self.width // 6
+                halign: 'center'
+                valign: 'top'
+                on_release: window.show_model()
+
+            RippleButton:
+                id: compare
+                font_size: self.width // 6
+                text: 'Compare'
+                disabled: True
+                halign: 'center'
+                valign: 'top'
+                on_release: window.compare()
+
+    ScrollView:
+        size_hint_y: 0.75
+        id: scroll
+        do_scroll_x: False
+        do_scroll_y: False
+        bar_color: [0.545, 0.631, 0.816, .7]
+        bar_inactive_color: [0.545, 0.631, 0.816, .2]
+
+        BoxLayout:
+            id: box
+            orientation: 'vertical'
+            size_hint: 1, None
+            height: self.minimum_height
+
+            LabelContainer:
+                id_number: 1
+                tutorial: True
+                markup: True
+                text: "Write 5 × 8 = 40\n\n[b]Hint:[/b] type * for ×"
+                peek_text: '5×8=40'
+                size_hint: (1, None)
+                height: (root.height*0.8)/3
+
+            LabelContainer:
+                id_number: 2
+                tutorial: True
+                text: "Write ½\n\n[b]Hint:[/b] type / for fraction"
+                peek_text: '(1/2)'
+                size_hint: (1, None)
+                height: (root.height*0.8)/3
+
+            LabelContainer:
+                id_number: 3  # Setting ID to 1, 2 and 3 is an easy way of having the scroll effect work
+                tutorial: True
+                text: 'Write y = -3x + 4'
+                peek_text: 'y=-3x+4'
+                size_hint: (1, None)
+                height: (root.height*0.8)/3
+
+            Label:
+                id: buffer
+                text: ''
+                size_hint: (1, None)
+                height: root.buffer
+
+<PracticeScreen>:
+    PracticeWindow

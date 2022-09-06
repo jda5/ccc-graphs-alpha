@@ -1,0 +1,21 @@
+<CompletionScreen>:
+    FloatLayout:
+        Label:
+            id: label
+            pos_hint: {'center_x': 0.5, 'center_y': 0.75}
+            size_hint: 0.9, None
+            text_size: self.width, None
+            height: self.texture_size[1]
+            halign: 'center'
+            markup: True
+            color: 0, 0, 0, 1
+        Button:
+            id: button
+            pos_hint: {'center_x': 0.5, 'center_y': 0.25}
+            size_hint: 0.75, None
+            text_size: self.width, None
+            height: self.texture_size[1] + 24
+            halign: 'center'
+            valign: 'top'
+            text: 'Click here to access the questionnaire'
+            on_release: app.visit_url('https://lboro.onlinesurveys.ac.uk/ccc-linear-graphs-4')

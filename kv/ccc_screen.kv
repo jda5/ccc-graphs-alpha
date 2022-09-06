@@ -1,0 +1,301 @@
+#: import H kivy.utils.get_color_from_hex
+
+<RippleButton>:
+    ripple_color: 52/255, 115/255, 152/255, 0.15
+    color: 1, 1, 1, 1
+    background_normal: ''
+    background_down: ''
+    background_color: root.up_color
+    markup: True
+
+<ProgressCircle@Widget>:
+    color: [224/255, 224/255, 244/255, 1]
+    canvas:
+        Color:
+            rgba: self.color
+        Ellipse:
+            pos: self.center_x - min(self.width, self.height)/2, self.center_y - min(self.width, self.height)/2
+            size: [min(self.width, self.height),] * 2
+        Color:
+            rgba: 0, 0, 0, 1
+        Line:
+            circle: (self.center_x, self.center_y, min(self.width, self.height)/2)
+
+<TextWidget>:
+    size_hint: None, None
+    size: self.text_size, self.text_size
+
+    canvas.before:
+        Color:
+            rgba: self.highlight_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<FractionWidget>:
+    numerator: numerator
+    denominator: denominator
+
+    canvas:
+        Color:
+            rgba: 0, 0, 0, 1
+        Line:
+            points: [self.x, self.y + self.height*0.5, self.x + self.width, self.y + self.height*0.5]
+            width: 1
+
+    TextWidget:
+        id: numerator
+        text_size: root.text_size
+        pos: root.x, root.y + self.height + root.spacing
+
+    TextWidget:
+        id: denominator
+        text_size: root.text_size
+        pos: root.x, root.y
+
+<Cursor>:
+    canvas.after:
+        Color:
+            rgba: self.color
+        Line:
+            points: [self.x, self.y, self.x, self.y + self.height]
+            width: 1
+            cap: 'none'
+
+<Container>:
+    cursor: cursor
+
+    Cursor:
+        id: cursor
+        size_hint: None, None
+        size: root.text_size, root.text_size
+        pos: root.x, root.y + (root.height - self.height)/2
+
+<LabelContainer>:
+    orientation: 'horizontal'
+    container: container
+    spacing: self.width * 0.1
+    is_focusable: True
+    grandparent: self.parent.parent.parent
+    tutorial: False
+
+    canvas.before:
+        Color:
+            rgba: 0.92, 0.92, 0.92, self.container_opacity
+        Rectangle:
+            size: self.size
+            pos: self.pos
+        Color:
+            rgba: H(self.background_label_color)
+        Quad:
+            points: self.x, self.y, self.x, self.y + self.height, self.x + self.width*0.4, self.y + self.height, self.x + self.width*0.3, self.y
+        Color:
+            rgba: H('#081c15')
+        Line:
+            points: self.x, self.y, self.x + self.width, self.y
+            width: 1
+            cap: 'square'
+        Line:
+            points: self.x + self.width, self.y, self.x + self.width, self.y + self.height
+            width: 1
+            cap: 'square'
+        Line:
+            points: self.x, self.y + self.height, self.x + self.width, self.y + self.height
+            width: 1
+            cap: 'square'
+        Line:
+            points: self.x, self.y, self.x, self.y + self.height
+            width: 1
+            cap: 'square'
+
+    Label:
+        size_hint: 0.3, 1
+        text: root.text
+        color: 0, 0, 0, 1
+        markup: True
+        text_size: self.width*0.8, self.height
+        font_size: self.height*0.125 if not root.tutorial else self.height * 0.075
+        valign: 'middle'
+        font_name: 'montserrat'
+
+    Container:
+        id: container
+        size_hint: 0.6, 1
+        render_text: root.peek_text
+
+<NavigationPane>:
+    canvas.before:
+        Color:
+            rgba: H('#D1E5DE')
+        Rectangle:
+            size: self.size
+            pos: self.pos
+        Color:
+            rgba: 0, 0, 0, 1
+        Line:
+            points: [self.x, self.y, self.x + self.width, self.y]
+
+    orientation: 'horizontal'
+
+    BoxLayout:
+        id: left_navigation
+
+        size_hint: 0.8, 1
+        orientation: 'vertical'
+
+        BoxLayout:
+            id: navigation_info
+
+            size_hint: 1, 0.3
+            orientation: 'horizontal'
+            padding: [15, 15, 15, 0]
+
+            Label:
+                id: score
+                size_hint: 0.3, 1
+                text_size: self.size
+                font_size: self.width*0.1
+                text: 'Score: ' + str(root.score)
+                color: 0, 0, 0, 1
+                valign: 'middle'
+                #padding: 15, 10
+                font_name: 'montserrat'
+                bold: True
+
+            BoxLayout:
+                id: progress
+                size_hint: 0.7, 1
+                #padding: [0, 20, 20, 0]
+
+                ProgressCircle:
+                    id: 0
+                ProgressCircle:
+                    id: 1
+                ProgressCircle:
+                    id: 2
+                ProgressCircle:
+                    id: 3
+                ProgressCircle:
+                    id: 4
+                ProgressCircle:
+                    id: 5
+                ProgressCircle:
+                    id: 6
+
+        Label:
+            id: question
+            text: root.question_text
+            color: 0, 0, 0, 1
+            text_size: self.size
+            font_size: self.width*0.036
+            halign: 'center'
+            valign: 'middle'
+            markup: True
+            padding_x: 10
+            font_name: 'montserrat'
+
+    FloatLayout:
+        id: right_navigation
+
+        size_hint: 0.2, 1
+        pos_hint: {'x': 0.7, 'y': 0}
+
+        RippleButton:
+            id: ready
+            pos_hint: {'right': 0.95, 'center_y': 0.5}
+            size_hint: 0.9, 0.35
+            text: 'Ready'
+            font_size: self.width // 6
+            halign: 'center'
+            valign: 'top'
+            on_release: root.ready(self)
+
+        RippleButton:
+            id: peek
+            pos_hint: {'right': 0.95, 'top': 0.95}
+            size_hint: 0.9, 0.35
+            font_size: self.width // 6
+            text: 'Peek'
+            halign: 'center'
+            valign: 'top'
+            on_release: root.parent.peek()
+
+        RippleButton:
+            id: compare
+            pos_hint: {'right': 0.95, 'y': 0.05}
+            size_hint: 0.9, 0.35
+            font_size: self.width // 6
+            text: 'Compare'
+            halign: 'center'
+            valign: 'top'
+            on_release: root.parent.compare()
+
+        RippleButton:
+            id: next
+            pos_hint: {'right': 0.95, 'center_y': 0.5}
+            size_hint: 0.9, 0.35
+            font_size: self.width // 6
+            text: 'Next'
+            halign: 'center'
+            valign: 'top'
+            on_release: root.parent.next_question()
+
+<CCCWindow>:
+    orientation: 'vertical'
+    id: window
+
+    NavigationPane:
+        id: navigation
+        size_hint: (1, 0.2)
+
+    ScrollView:
+        id: scroll
+        do_scroll_x: False
+        do_scroll_y: False
+        bar_color: [0.545, 0.631, 0.816, .7]
+        bar_inactive_color: [0.545, 0.631, 0.816, .2]
+
+        BoxLayout:
+            id: box
+            orientation: 'vertical'
+            size_hint: 1, None
+            height: self.minimum_height
+
+            LabelContainer:
+                id_number: 0
+                text: 'Calculate the slope of the line.'
+                size_hint: (1, None)
+                height: root.height/6
+
+            LabelContainer:
+                id_number: 1
+                text: 'Substitute the slope into the general equation of a line.'
+                size_hint: (1, None)
+                height: root.height/6
+
+            LabelContainer:
+                id_number: 2
+                text: 'Substitute either point into the general equation.'
+                size_hint: (1, None)
+                height: root.height/6
+
+            LabelContainer:
+                id_number: 3
+                text: 'Solve for c.'
+                size_hint: (1, None)
+                height: root.height/6
+
+            LabelContainer:
+                id_number: 4
+                text: 'Write the equation of the line.'
+                size_hint: (1, None)
+                height: root.height/6
+
+            Label:
+                id: buffer
+                text: ''
+                size_hint: (1, None)
+                height: root.buffer
+
+<CCCScreen>:
+    CCCWindow

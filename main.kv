@@ -1,0 +1,29 @@
+#: include kv/home_screen.kv
+#: include kv/ccc_screen.kv
+#: include kv/completion_screen.kv
+#: include kv/practice_screen.kv
+
+BoxLayout:
+    orientation: 'horizontal'
+
+    ScreenManager:
+        id: screen_manager
+
+        HomeScreen:
+            id: home_screen
+            name: 'home_screen'
+
+        CCCScreen:
+            id: ccc_screen
+            name: 'ccc_screen'
+            on_enter: self.children[0].on_start()
+
+        CompletionScreen:
+            id: completion_screen
+            name: 'completion_screen'
+            on_pre_enter:
+                self.ids['label'].text = f"Well done on finishing the task!\n\n\nScore: [b]{ccc_screen.children[0].ids['navigation'].score}[/b]\n\n\nPlease now complete the questionnaire."
+
+        PracticeScreen:
+            id: practice_screen
+            name: 'practice_screen'

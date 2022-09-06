@@ -1,0 +1,138 @@
+#: import H kivy.utils.get_color_from_hex
+#: import web webbrowser.open
+#: import SlideTransition kivy.uix.screenmanager.SlideTransition
+
+<HomeScreen>:
+    FloatLayout:
+
+        Label:
+            id: welcome_message
+            size_hint: 0.9, 0.25
+            pos_hint: {'center_x': 0.5, 'top': 0.975}
+            text: "Thank you for downloading the Cover, Copy and Compare app! Please select one of the following option below. After you've completed the task, you will be asked to complete a short questionnaire on what you thought of the app."
+            text_size: self.width, None
+            font_size: '17sp'
+            height: self.texture_size[1]
+            halign: 'center'
+            valign: 'top'
+            color: 0, 0, 0, 1
+
+        GridLayout:
+            cols: 2
+
+            id: navigation_buttons
+            spacing: 10
+            size_hint: 1, 0.7
+            pos_hint: {'center_x': 0.5, 'top': 0.725}
+            padding: 30
+            spacing: 30
+
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: 20
+                padding: 30
+
+                canvas.before:
+                    Color:
+                        rgba: 232/255, 232/255, 232/255, 1
+
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [(40, 40), (40, 40), (20, 20), (20, 20)]
+
+                Label:
+                    size_hint: 1, 0.05
+                    text: "Tutorial Activity"
+                    bold: True
+                    color: 0, 0, 0, 1
+
+                ImageButton:
+                    id: tutorial
+                    source: "icons/tutorial.png" if self.state == 'normal' else 'icons/tutorial_down.png'
+                    allow_stretch: True
+                    keep_ratio: True
+                    on_release: app.change_screen('practice_screen', SlideTransition(direction='left'))
+
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: 20
+                padding: 30
+
+                canvas.before:
+                    Color:
+                        rgba: 232/255, 232/255, 232/255, 1
+
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [(40, 40), (40, 40), (20, 20), (20, 20)]
+
+                Label:
+                    size_hint: 1, 0.05
+                    text: "Video Tutorial"
+                    bold: True
+                    color: 0, 0, 0, 1
+
+                ImageButton:
+                    id: tutorial
+                    source: "icons/video_normal.png" if self.state == 'normal' else 'icons/video_down.png'
+                    allow_stretch: True
+                    keep_ratio: True
+                    on_release: app.visit_url('https://youtu.be/FApwDQfkiqQ')
+
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: 20
+                padding: 40
+
+                canvas.before:
+                    Color:
+                        rgba: 232/255, 232/255, 232/255, 1
+
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [(40, 40), (40, 40), (20, 20), (20, 20)]
+
+                Label:
+                    size_hint: 1, 0.05
+                    text: "CCC Task"
+                    bold: True
+                    color: 0, 0, 0, 1
+
+                ImageButton:
+                    id: ccc_button
+                    source: "icons/CCCScreen.png" if self.state == 'normal' else "icons/CCCScreenDown.png"
+                    allow_stretch: True
+                    keep_ratio: True
+                    on_release: app.change_screen('ccc_screen', SlideTransition(direction='left'))
+
+
+
+            BoxLayout:
+                orientation: 'vertical'
+                spacing: 20
+                padding: 30
+
+                canvas.before:
+                    Color:
+                        rgba: 232/255, 232/255, 232/255, 1
+
+                    RoundedRectangle:
+                        pos: self.pos
+                        size: self.size
+                        radius: [(40, 40), (40, 40), (20, 20), (20, 20)]
+
+                Label:
+                    size_hint: 1, 0.05
+                    text: "Study Information"
+                    bold: True
+                    color: 0, 0, 0, 1
+
+                ImageButton:
+                    id: tutorial
+                    source: "icons/information_normal.png" if self.state == 'normal' else 'icons/information_down.png'
+                    allow_stretch: True
+                    keep_ratio: True
+                    on_release: app.visit_url('https://lunet-my.sharepoint.com/:b:/g/personal/majs6_lunet_lboro_ac_uk/ETAn9j9fM0dEkDsJE3u0SvMBT_Q7Nm6NZ59W0TL2lbsrmg?e=2Qwm5L')
